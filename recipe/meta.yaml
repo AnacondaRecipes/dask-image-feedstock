@@ -37,8 +37,13 @@ test:
     - dask_image
 
   requires:
+    # 4/23/2021: Updated for v0.5.0 because the build process fails on tests when running command 'pytest'
     - pytest >=3.0.5
     - scikit-image >=0.12.3,<0.17.0
+    - pytest-timeout >=1.0.0
+    - pytest-flake8 >=0.8.1
+    - flake8 >=3.4.1
+    - tifffile >=2018.10.18
 
   commands:
     - pytest
