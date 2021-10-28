@@ -14,6 +14,7 @@ source:
 build:
   noarch: python
   number: 0
+  skip: True  # [py<35]
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
@@ -44,9 +45,12 @@ test:
     - pytest-timeout >=1.0.0
     - scikit-image >=0.12.3,<0.17.0
     - tifffile >=2018.10.18
+    - pip
+    - python <3.10
 
   commands:
     - pytest
+    - pip check
 
 about:
   home: https://github.com/dask/dask-image
