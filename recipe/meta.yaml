@@ -14,8 +14,8 @@ source:
 build:
   noarch: python
   number: 0
-  # skip s390x due to missing scikit-image dependency version='>=0.12.3,<0.17.0
-  skip: True  # [py<35 or s390x]
+  # skip s390x osx-arm64 and linux-aarch64 due to missing scikit-image dependency version='>=0.12.3,<0.17.0
+  skip: True  # [py<35 or s390x or osx-arm64 or linux-aarch64]
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
