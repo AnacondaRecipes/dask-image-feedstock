@@ -1,6 +1,6 @@
 {% set name = "dask-image" %}
-{% set version = "0.4.0" %}
-{% set sha256 = "a6873a39af21b856a4eb7efee6838e6897b1399f21ab9e65403e69eb62f96c2d" %}
+{% set version = "0.6.0" %}
+{% set sha256 = "fee64c7fb5b2d2e27bdf250fea59bb5382496d94971c3bbf3ab68b52d7cefdff" %}
 
 package:
   name: {{ name|lower }}
@@ -14,16 +14,19 @@ source:
 build:
   noarch: python
   number: 0
+  # skip s390x osx-arm64 and linux-aarch64 due to missing scikit-image dependency version='>=0.12.3,<0.17.0
+  skip: True  # [py<35 or s390x or arm64 or aarch64]
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
   build:
-    - pip
     - python
+    - pip
     - setuptools
+    - wheel
 
   run:
-    - python
+    - python >=3.5
     - dask >=0.16.1
     - numpy >=1.11.3
     - scipy >=0.19.1
@@ -37,15 +40,23 @@ test:
     - dask_image
 
   requires:
+    - flake8 >=3.4.1
     - pytest >=3.0.5
+    - pytest-flake8 >=0.8.1
+    - pytest-timeout >=1.0.0
     - scikit-image >=0.12.3,<0.17.0
+    - tifffile >=2018.10.18
+    - pip
+    - python <3.10
 
   commands:
     - pytest
+    - pip check
 
 about:
   home: https://github.com/dask/dask-image
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE.txt
   summary: Distributed image processing
   doc_url: https://dask-image.readthedocs.io/
