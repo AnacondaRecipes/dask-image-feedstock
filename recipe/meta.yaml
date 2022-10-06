@@ -13,9 +13,9 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   # skip s390x osx-arm64 and linux-aarch64 due to missing scikit-image dependency version='>=0.12.3,<0.17.0
-  skip: True  # [py<35 or s390x or arm64 or aarch64]
+  skip: True  # [py<35]
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 requirements:
@@ -44,11 +44,9 @@ test:
     - pytest >=3.0.5
     - pytest-flake8 >=0.8.1
     - pytest-timeout >=1.0.0
-    - scikit-image >=0.12.3,<0.17.0
+    - scikit-image >=0.12.3
     - tifffile >=2018.10.18
     - pip
-    - python <3.10
-
   commands:
     - pytest
     - pip check
