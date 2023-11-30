@@ -1,54 +1,47 @@
 {% set name = "dask-image" %}
-{% set version = "0.6.0" %}
-{% set sha256 = "fee64c7fb5b2d2e27bdf250fea59bb5382496d94971c3bbf3ab68b52d7cefdff" %}
+{% set version = "2023.8.1" %}
+{% set sha256 = "5e9a8985b0527a1b5942c6a7e744e0e57d264e222c7058f05baeb81c374d04b6" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
-  noarch: python
   number: 0
-  # skip s390x osx-arm64 and linux-aarch64 due to missing scikit-image dependency version='>=0.12.3,<0.17.0
-  skip: True  # [py<35 or s390x or arm64 or aarch64]
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  skip: True  # [py<39]
+  script: 
+    - cp {{ RECIPE_DIR }}/versioneer.py {{ SRC_DIR }}/ 
+    - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
-  build:
+  host:
     - python
     - pip
     - setuptools
     - wheel
-
   run:
-    - python >=3.5
-    - dask >=0.16.1
-    - numpy >=1.11.3
+    - python
+    - dask-core >=2023.2.0
+    - numpy >=1.18
     - scipy >=0.19.1
     - pims >=0.4.1
+    - tifffile >=2018.10.18
+    - pandas >=2.0.0
 
 test:
   source_files:
     - tests
-
   imports:
     - dask_image
-
   requires:
-    - flake8 >=3.4.1
     - pytest >=3.0.5
-    - pytest-flake8 >=0.8.1
     - pytest-timeout >=1.0.0
-    - scikit-image >=0.12.3,<0.17.0
-    - tifffile >=2018.10.18
     - pip
-    - python <3.10
-
+    - python
   commands:
     - pytest
     - pip check
@@ -59,7 +52,7 @@ about:
   license_family: BSD
   license_file: LICENSE.txt
   summary: Distributed image processing
-  doc_url: https://dask-image.readthedocs.io/
+  doc_url: https://image.dask.org/
   dev_url: https://github.com/dask/dask-image
 
 extra:
