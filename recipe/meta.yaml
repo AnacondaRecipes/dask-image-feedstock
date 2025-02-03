@@ -25,7 +25,7 @@ requirements:
     - wheel
   run:
     - python
-    - dask-core >=2023.2.0
+    - dask-core >=2024.4.1
     - numpy >=1.18
     - scipy >=0.19.1
     - pims >=0.4.1
