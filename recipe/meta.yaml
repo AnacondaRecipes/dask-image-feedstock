@@ -40,9 +40,7 @@ test:
     - dask_image
   requires:
     - pytest >=3.0.5
-    - pytest-timeout >=1.0.0
     - pip
-    - python
   commands:
     - pytest tests -v
     - pip check
