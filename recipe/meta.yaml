@@ -26,7 +26,8 @@ requirements:
   run:
     - python
     - dask-core >=2024.4.1
-    - numpy >=1.18
+    # Tests fail without numpy upper bound
+    - numpy >=1.18,<2.0
     - scipy >=1.7.0
     - pims >=0.4.1
     - tifffile >=2018.10.18
@@ -43,8 +44,7 @@ test:
     - pip
     - python
   commands:
-    # AttributeError: `ptp` was removed from the ndarray class in NumPy 2.0
-    - pytest tests -v -k "not(test_rotate_minimal_input or test_rotate_type_consistency or test_rotate_no_chunks_specified or test_rotate_prefilter_not_implemented_error)"
+    - pytest tests -v
     - pip check
 
 about:
