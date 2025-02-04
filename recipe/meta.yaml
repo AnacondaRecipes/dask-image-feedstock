@@ -14,7 +14,6 @@ build:
   number: 0
   skip: True  # [py<39]
   script:
-    # - cp {{ RECIPE_DIR }}/versioneer.py {{ SRC_DIR }}/
     - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
