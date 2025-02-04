@@ -22,6 +22,7 @@ requirements:
     - pip
     - setuptools
     - wheel
+    - setuptools_scm
   run:
     - python
     - dask-core >=2024.4.1
