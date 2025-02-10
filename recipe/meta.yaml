@@ -52,6 +52,7 @@ about:
   license_family: BSD
   license_file: LICENSE.txt
   summary: Distributed image processing
+  description: Image processing with Dask Arrays
   doc_url: https://image.dask.org/
   dev_url: https://github.com/dask/dask-image
 
