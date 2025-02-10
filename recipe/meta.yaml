@@ -27,6 +27,7 @@ requirements:
     - python
     - dask-core >=2024.4.1
     # Tests fail without numpy upper bound
+    # https://github.com/dask/dask-image/issues/392
     - numpy >=1.18,<2.0
     - scipy >=1.7.0
     - pims >=0.4.1
