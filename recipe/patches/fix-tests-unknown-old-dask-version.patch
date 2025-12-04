@@ -1,0 +1,73 @@
+From 69ddb6093520108018301179e747d80eadad8d0f Mon Sep 17 00:00:00 2001
+From: Patryk Kups <pkups@anaconda.com>
+Date: Thu, 4 Dec 2025 11:31:06 +0100
+Subject: [PATCH] patch
+
+---
+ .../test_affine_transformation.py             | 26 +++++++++----------
+ .../test_ndinterp/test_spline_filter.py       | 12 ++++-----
+ 2 files changed, 19 insertions(+), 19 deletions(-)
+
+diff --git a/tests/test_dask_image/test_ndinterp/test_affine_transformation.py b/tests/test_dask_image/test_ndinterp/test_affine_transformation.py
+index ebcd251..925a788 100644
+--- a/tests/test_dask_image/test_ndinterp/test_affine_transformation.py
++++ b/tests/test_dask_image/test_ndinterp/test_affine_transformation.py
+@@ -67,19 +67,19 @@ def validate_affine_transform(n=2,
+         import cupy as cp
+         image_da = image_da.map_blocks(cp.asarray)
+ 
+-    if (
+-        prefilter
+-        and interp_mode in _supported_prefilter_modes
+-        and interp_order > 1
+-        and version.parse(dask.__version__) < version.parse("2020.1.0")
+-    ):
+-        # older dask will fail if any chunks have size smaller than depth
+-        depth = dask_image.ndinterp._get_default_depth(interp_order)
+-        in_size = input_output_shape_per_dim[0]
+-        in_chunksize = input_output_chunksize_per_dim[0]
+-        rem = in_size % in_chunksize
+-        if in_size < depth or (rem != 0 and rem < depth):
+-            pytest.skip("older dask doesn't automatically rechunk")
++    # if (
++    #     prefilter
++    #     and interp_mode in _supported_prefilter_modes
++    #     and interp_order > 1
++    #     and version.parse(dask.__version__) < version.parse("2020.1.0")
++    # ):
++    #     # older dask will fail if any chunks have size smaller than depth
++    #     depth = dask_image.ndinterp._get_default_depth(interp_order)
++    #     in_size = input_output_shape_per_dim[0]
++    #     in_chunksize = input_output_chunksize_per_dim[0]
++    #     rem = in_size % in_chunksize
++    #     if in_size < depth or (rem != 0 and rem < depth):
++    #         pytest.skip("older dask doesn't automatically rechunk")
+ 
+     # define (random) transformation
+     if matrix is None:
+diff --git a/tests/test_dask_image/test_ndinterp/test_spline_filter.py b/tests/test_dask_image/test_ndinterp/test_spline_filter.py
+index f5300c9..47a7fe0 100644
+--- a/tests/test_dask_image/test_ndinterp/test_spline_filter.py
++++ b/tests/test_dask_image/test_ndinterp/test_spline_filter.py
+@@ -48,12 +48,12 @@ def validate_spline_filter(n=2,
+     np.random.seed(random_seed)
+     image = np.random.random([axis_size] * n)
+ 
+-    if version.parse(dask.__version__) < version.parse("2020.1.0"):
+-        # older dask will fail if any chunks have size smaller than depth
+-        _depth = dask_image.ndinterp._get_default_depth(interp_order)
+-        rem = axis_size % chunksize
+-        if chunksize < _depth or (rem != 0 and rem < _depth):
+-            pytest.skip("older dask doesn't automatically rechunk")
++    # if version.parse(dask.__version__) < version.parse("2020.1.0"):
++    #     # older dask will fail if any chunks have size smaller than depth
++    #     _depth = dask_image.ndinterp._get_default_depth(interp_order)
++    #     rem = axis_size % chunksize
++    #     if chunksize < _depth or (rem != 0 and rem < _depth):
++    #         pytest.skip("older dask doesn't automatically rechunk")
+ 
+     if input_as_non_dask_array:
+         if use_cupy:
+-- 
+2.39.5 (Apple Git-154)
+
