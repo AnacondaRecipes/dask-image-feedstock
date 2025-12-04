@@ -37,7 +37,6 @@ requirements:
 test:
   source_files:
     - tests
-    - dask_image/_version.py
   imports:
     - dask_image
   requires:
