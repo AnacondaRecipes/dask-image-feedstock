@@ -1,6 +1,5 @@
 {% set name = "dask-image" %}
 {% set version = "2025.11.0" %}
-{% set sha256 = "45cf1a9c3a8a1c143c75d43f1494e4fe0827564d3ec6efb93618fb04603ba0b3" %}
 
 package:
   name: {{ name|lower }}
@@ -8,7 +7,9 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: 45cf1a9c3a8a1c143c75d43f1494e4fe0827564d3ec6efb93618fb04603ba0b3
+  patches:
+    - patches/fix-tests-unknown-old-dask-version.patch
 
 build:
   number: 0
@@ -21,32 +22,32 @@ requirements:
     - python
     - pip
     - setuptools >=64
-    - setuptools_scm
-    - setuptools-scm >=8
+    - setuptools_scm >=8
   run:
     - python
     - dask-core >=2024.4.1
-    # Tests fail without numpy upper bound
-    # https://github.com/dask/dask-image/issues/392
     - numpy >=1.18
     - scipy >=1.7.0
+    - pandas >=2.0.0
     - pims >=0.4.1
     - tifffile >=2018.10.18
-    - pandas >=2.0.0
   run_constrained:
     - cupy >=9.0.0
 
 test:
   source_files:
     - tests
+    - dask_image/_version.py
   imports:
     - dask_image
   requires:
-    - pytest >=3.0.5
+    - pytest >=7.2.2
+    - pyarrow
     - pip
   commands:
-    - pytest tests -v
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest tests -v
 
 about:
   home: https://github.com/dask/dask-image
@@ -55,7 +56,7 @@ about:
   license_file: LICENSE.txt
   summary: Distributed image processing
   description: Image processing with Dask Arrays
-  doc_url: https://image.dask.org/
+  doc_url: https://image.dask.org
   dev_url: https://github.com/dask/dask-image
 
 extra:
