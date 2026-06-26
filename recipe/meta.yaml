@@ -8,8 +8,6 @@ package:
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
   sha256: ed6b462277e691b2c12b0890ba801a0f9a00cc1894b0aa71b195a7a1419b2b00
-  #patches:
-  #  - patches/fix-tests-unknown-old-dask-version.patch
 
 build:
   number: 0
