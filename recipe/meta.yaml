@@ -1,21 +1,19 @@
 {% set name = "dask-image" %}
-{% set version = "2025.11.0" %}
+{% set version = "2026.5.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: 45cf1a9c3a8a1c143c75d43f1494e4fe0827564d3ec6efb93618fb04603ba0b3
-  patches:
-    - patches/fix-tests-unknown-old-dask-version.patch
+  sha256: ed6b462277e691b2c12b0890ba801a0f9a00cc1894b0aa71b195a7a1419b2b00
 
 build:
   number: 0
-  skip: true  # [py<39]
   script:
     - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
+  skip: true  # [py<39]
 
 requirements:
   host:
@@ -28,10 +26,12 @@ requirements:
     - dask-core >=2024.4.1
     - numpy >=1.18
     - scipy >=1.7.0
-    - pandas >=2.0.0
     - pims >=0.4.1
-    - tifffile >=2018.10.18
+    - tifffile >=2020.10.1
   run_constrained:
+    # dataframe
+    - pandas >=2.0.0
+    # gpu
     - cupy >=9.0.0
 
 test:
@@ -39,14 +39,14 @@ test:
     - tests
   imports:
     - dask_image
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v tests 
   requires:
     - pytest >=7.2.2
     - pyarrow
     - pip
-  commands:
-    - pip check
-    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest tests -v
 
 about:
   home: https://github.com/dask/dask-image
